@@ -14,7 +14,7 @@ const helper = new JwtHelperService();
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss'],
+    styleUrls: ['./login.component.sass'],
     animations: [routerTransition()]
 })
 export class LoginComponent implements OnInit {

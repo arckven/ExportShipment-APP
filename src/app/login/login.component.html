@@ -8,18 +8,18 @@
                 <form action="javascript:void(0);" method="get">
                     <fieldset class="clearfix">
                         <p>
-                            <span class="fa fa-user"></span>
+                                <fa-icon class="icon" [icon]="['fas', 'user']"></fa-icon>
                             <input #username type="text" Placeholder="Username" required (keyup.enter)="password.focus()">
                         </p>
                         <!-- JS because of IE support; better: placeholder="Username" -->
                         <p>
-                            <span class="fa fa-lock"></span>
+                            <fa-icon class="icon" [icon]="['fas', 'lock']"></fa-icon>
                             <input #password type="password" Placeholder="Password" required (keyup.enter)="onLoggedin(username.value, password.value)">
                         </p>
                         <!-- JS because of IE support; better: placeholder="Password" -->
                         <div>
                             <span style="width:100%; text-align:right;  display: inline-block;">
-                                <button type="button" class="btn btn-success" (click)="onLoggedin(username.value, password.value)">Sign
+                                <button type="button" class="btn btn-success" (click)="onLoggedin(username.value, password.value)"> <fa-icon [icon]="['fas', 'sign-in-alt']"></fa-icon> Sign
                                     In</button>
                             </span>
                         </div>
@@ -30,7 +30,7 @@
             </div>
 
             <div class="col col-md logo order-xs-first">
-                    <h2 class="title"><img class="favicon" src="favicon.ico" /> {{getAppName()}}</h2>
+                    <h2 class="title"><img class="favicon" src="favicon.ico" width="80px"/> {{getAppName()}}</h2>
                     <p class="d-none d-sm-block">Application dedicated to the registration of customs and financial
                         invoices by shipment
                         and business unit.</p>

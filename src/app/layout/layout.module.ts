@@ -13,8 +13,9 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faTachometerAlt, faTruckLoading, faShippingFast, faFileInvoiceDollar,
   faUsersCog, faArrowRight, faAngleDoubleLeft, faAngleDoubleRight,
-  faBars, faTruckMoving
+  faBars, faTruckMoving, faUser
 } from '@fortawesome/free-solid-svg-icons';
+
 import { CustomsComponent } from './customs/customs.component';
 import { FinanceComponent } from './finance/finance.component';
 
@@ -22,16 +23,16 @@ import { PageHeaderModule } from '../shared/modules/page-header/page-header.modu
 
 // Add an icon to the library for convenient access in other components
 library.add(faTachometerAlt, faUsersCog, faArrowRight, faAngleDoubleLeft, faAngleDoubleRight,
-  faTruckLoading, faShippingFast, faFileInvoiceDollar, faBars, faTruckMoving);
+  faTruckLoading, faShippingFast, faFileInvoiceDollar, faBars, faTruckMoving, faUser);
 
 @NgModule({
   imports: [
     CommonModule,
     LayoutRoutingModule,
     TranslateModule,
-    FontAwesomeModule,
     Ng2Charts,
-    PageHeaderModule
+    PageHeaderModule,
+    FontAwesomeModule
   ],
   declarations: [LayoutRoutingComponents, SidebarComponent, HeaderComponent, CustomsComponent, FinanceComponent]
 })
