@@ -1,0 +1,103 @@
+<div class="main">
+    <div class="container">
+        <div class="row">
+
+            
+
+            <div class="col col-md order-xs-last" id="login">
+                <form action="javascript:void(0);" method="get">
+                    <fieldset class="clearfix">
+                        <p>
+                            <span class="fa fa-user"></span>
+                            <input #username type="text" Placeholder="Username" required (keyup.enter)="password.focus()">
+                        </p>
+                        <!-- JS because of IE support; better: placeholder="Username" -->
+                        <p>
+                            <span class="fa fa-lock"></span>
+                            <input #password type="password" Placeholder="Password" required (keyup.enter)="onLoggedin(username.value, password.value)">
+                        </p>
+                        <!-- JS because of IE support; better: placeholder="Password" -->
+                        <div>
+                            <span style="width:100%; text-align:right;  display: inline-block;">
+                                <button type="button" class="btn btn-success" (click)="onLoggedin(username.value, password.value)">Sign
+                                    In</button>
+                            </span>
+                        </div>
+
+                    </fieldset>
+                    <div class="clearfix"></div>
+                </form>
+            </div>
+
+            <div class="col col-md logo order-xs-first">
+                    <h2 class="title"><img class="favicon" src="favicon.ico" /> {{getAppName()}}</h2>
+                    <p class="d-none d-sm-block">Application dedicated to the registration of customs and financial
+                        invoices by shipment
+                        and business unit.</p>
+                    <div class="clearfix"></div>
+                </div>
+
+
+
+        </div>
+
+        <div class="row" *ngIf="false">
+            <div class="col-auto">hola</div>
+            <div class="col-sm-6" id="login">
+                <form action="javascript:void(0);" method="get">
+
+                    <fieldset class="clearfix">
+
+                        <p>
+                            <span class="fa fa-user"></span>
+                            <input #username type="text" Placeholder="Username" required>
+                        </p>
+                        <!-- JS because of IE support; better: placeholder="Username" -->
+                        <p>
+                            <span class="fa fa-lock"></span>
+                            <input #password type="password" Placeholder="Password" required>
+                        </p>
+                        <!-- JS because of IE support; better: placeholder="Password" -->
+
+                        <div>
+                            <span style="width:100%; text-align:right;  display: inline-block;">
+                                <button type="button" class="btn btn-success" (click)="onLoggedin(username.value, password.value)">Sign
+                                    In</button>
+                            </span>
+                        </div>
+
+                    </fieldset>
+                    <div class="clearfix"></div>
+                </form>
+            </div>
+            <div class="col-sm-6 logo">
+                <h2 class="title"><img class="favicon" src="favicon.ico" /> {{getAppName()}}</h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="col-xs-12"></div>
+        </div>
+    </div>
+
+
+
+
+    <div class="container">
+
+        <div class="middle">
+            <div id="login">
+
+
+                <div class="clearfix"></div>
+
+            </div>
+            <!-- end login -->
+            <div class="logo">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

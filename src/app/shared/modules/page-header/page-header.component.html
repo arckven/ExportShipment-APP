@@ -1,0 +1,14 @@
+<div class="row">
+    <div class="col-xl-12">
+        <h2 class="page-header">
+            {{heading}}
+            <a [routerLink]="['help']"><i class="text-primary float-right far fa-question-circle"></i></a>
+        </h2>
+        <ol class="breadcrumb" style="padding: 5px; margin-top: -5px;">
+            <li class="breadcrumb-item">
+                <small><i class="fa fa-dashboard"></i> <a href="Javascript:void(0)" [routerLink]="['/dashboard']">Dashboard</a></small>
+            </li>
+            <li class="breadcrumb-item active"><small><i class="fa {{icon}}"></i> {{heading}}</small></li>
+        </ol>
+    </div>
+</div>

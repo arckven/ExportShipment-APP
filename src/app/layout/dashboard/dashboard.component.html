@@ -1,0 +1,66 @@
+<div [@routerTransition]>
+    <h2 class="text-muted">Dashboard <small>Shipping SAP CIM ZOE</small></h2>
+    <hr>
+    <div class="row">
+        <div class="col-12">
+            <h2>Summary<span><button class="btn btn-info btn-sm float-right" (click)="getSummary()">Update</button></span></h2>
+        </div>
+        <div class="col-md-3">
+
+            <a style="color: inherit;" routerLink="/dashboard" [routerLinkActive]="['router-link-active']">
+                <div class="card-counter primary">
+                    <fa-icon [icon]="['fas', 'truck-loading']"></fa-icon>
+                    <span class="count-numbers">{{summary['NEW']?summary['NEW']:'0'}}</span>
+                    <span class="count-name">Pending shipment</span>
+                </div>
+            </a>
+
+        </div>
+
+        <div class="col-md-3">
+            <a style="color: inherit;" routerLink="/customs" [routerLinkActive]="['router-link-active']">
+                <div class="card-counter success">
+                    <fa-icon [icon]="['fas', 'shipping-fast']"></fa-icon>
+                    <span class="count-numbers">{{summary['SHIPMENT']?summary['SHIPMENT']:'0'}}</span>
+                    <span class="count-name">Pending customs</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a style="color: inherit;" routerLink="/finance" [routerLinkActive]="['router-link-active']">
+                <div class="card-counter info">
+                    <fa-icon [icon]="['fas', 'file-invoice-dollar']"></fa-icon>
+                    <span class="count-numbers">{{summary['CUSTOMS']?summary['CUSTOMS']:'0'}}</span>
+                    <span class="count-name">Pending finance</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a style="color: inherit;" routerLink="/finance" [routerLinkActive]="['router-link-active']">
+                <div class="card-counter closed">
+                    <fa-icon [icon]="['fas', 'truck-moving']"></fa-icon>
+                    <span class="count-numbers">{{summary['FINANCE']?summary['FINANCE']:'0'}}</span>
+                    <span class="count-name">Closed shipments</span>
+                </div>
+            </a>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col col-sm-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                    Status by customer
+                </div>
+                <div class="card-body">
+                    <canvas *ngIf="pendingByCustomer['data']" baseChart [datasets]="pendingByCustomer['data']" [labels]="pendingByCustomer['labels']"
+                        [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)"
+                        (chartClick)="chartClicked($event)" [colors]="lineChartColors">
+                    </canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
