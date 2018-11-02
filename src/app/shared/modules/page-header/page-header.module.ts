@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PageHeaderComponent } from './page-header.component';
 import { SearchComponent } from '../../components/search/search.component';
+import { ShipmentTableComponent } from '../../components/shipment-table/shipment-table.component';
 import { SapModalComponent } from '../../components/search/sap-modal/sap-modal.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -24,7 +25,8 @@ library.add(faTachometerAlt, faUsersCog, faArrowRight, faAngleDoubleLeft, faAngl
     CommonModule,
     RouterModule, FormsModule, ReactiveFormsModule, FontAwesomeModule
   ],
-  declarations: [PageHeaderComponent, SearchComponent, SapModalComponent],
-  exports: [PageHeaderComponent, SearchComponent, SapModalComponent]
+  declarations: [PageHeaderComponent, SearchComponent, SapModalComponent, ShipmentTableComponent],
+  exports: [PageHeaderComponent, SearchComponent, SapModalComponent, ShipmentTableComponent],
+  entryComponents: [SapModalComponent]
 })
 export class PageHeaderModule { }

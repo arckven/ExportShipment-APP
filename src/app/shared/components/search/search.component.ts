@@ -4,8 +4,9 @@ import { ShipmentService } from '../../services/export-shipment/shipment.service
 import { SapService } from '../../services/sap/sap.service';
 import { UtilsService } from '../../services/export-shipment/utils.service';
 import { SapModalComponent } from './sap-modal/sap-modal.component';
-import { ModalDialogService, SimpleModalComponent } from 'ngx-modal-dialog';
-import { reject } from 'q';
+import { ModalDialogService } from 'ngx-modal-dialog';
+import { AppSettings } from '../../../app-settings';
+
 
 @Component({
   selector: 'app-search',
@@ -42,9 +43,9 @@ export class SearchComponent implements OnInit {
   }
 
   searchShipment() {
-    this.search['plant'] = 'WSCC';
-    this.search['criteria'] = 'ASN';
-    this.search['value'] = 'FOXELP163401A';
+    // this.search['plant'] = 'WSCC';
+    // this.search['criteria'] = 'ASN';
+    // this.search['value'] = 'FOXELP163401A';
     if (this.showSearch === false) {
       this.showSearch = true;
       this.search['plant'] = null;
@@ -243,16 +244,25 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.utilsService.getConfiguration('SEARCH_CONTROL').subscribe(
-      data => {
-        if (data['success']) {
-          this.search['Plant'] = data['result']['Plant'];
-          this.search['Criteria'] = data['result']['Criteria'];
-        }
-      },
-      err => {
-        this.toasterService.pop('error', err.status + ' - ' + err.message);
-      });
+
+
+
+    if (!this.utilsService.getConfiguration()['SEARCH_CONTROL']) {
+      this.utilsService.retriveConfiguration('EXPORT_SHIPMENT').subscribe(
+        data => {
+          if (data['success']) {
+            this.utilsService.setConfiguration(data['result']);
+            this.search['Plant'] = this.utilsService.getConfiguration()['SEARCH_CONTROL']['Plant'];
+            this.search['Criteria'] = this.utilsService.getConfiguration()['SEARCH_CONTROL']['Criteria'];
+          }
+        },
+        err => {
+          this.toasterService.pop('error', err.status + ' - ' + err.message);
+        });
+    } else {
+      this.search['Plant'] = this.utilsService.getConfiguration()['SEARCH_CONTROL']['Plant'];
+      this.search['Criteria'] = this.utilsService.getConfiguration()['SEARCH_CONTROL']['Criteria'];
+    }
     setTimeout(() => {
       this.plantControl.nativeElement.focus();
     }, 500);

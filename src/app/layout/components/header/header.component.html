@@ -3,6 +3,8 @@
   <button class="navbar-toggler" type="button" (click)="toggleSidebar()">
       <fa-icon class="text-muted" [icon]="['fas', 'bars']"></fa-icon>
   </button>
+
+  
   <div class="collapse navbar-collapse">
       <ul class="navbar-nav ml-auto">
           <li *ngIf="false" class="nav-item dropdown" ngbDropdown>
@@ -36,9 +38,10 @@
                   </a>
               </div>
           </li>
-          <!-- <li class="nav-item dropdown" ngbDropdown>
+           <li class="nav-item dropdown" ngbDropdown>
               <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle>
-                  <i class="fa fa-user"></i> {{getUserName()}} <b class="caret"></b>
+                    <fa-icon [icon]="['fas', 'user']"></fa-icon>
+                   {{getUserName()}} <b class="caret"></b>
               </a>
               <div class="dropdown-menu-right" ngbDropdownMenu>
                   <a class="dropdown-item" href="javascript:void(0)">
@@ -48,7 +51,7 @@
                       <i class="fa fa-fw fa-power-off"></i> {{ 'Log Out' | translate }}
                   </a>
               </div>
-          </li> -->
+          </li> 
       </ul>
   </div>
 </nav>

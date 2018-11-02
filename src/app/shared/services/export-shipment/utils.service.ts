@@ -8,12 +8,23 @@ import { AppSettings } from '../../../app-settings';
 })
 export class UtilsService {
 
+  configuration: Object = {};
+
   constructor(private http: HttpClient) { }
 
-  getConfiguration(propertyGroup): Observable<any> {
+  retriveConfiguration(propertyGroup): Observable<any> {
     let url = AppSettings.API_ENDPOINT;
     url += 'utils/configuration/' + propertyGroup;
     return this.http.get<any>(url, {});
   }
+
+  getConfiguration(): any {
+    return this.configuration;
+  }
+
+  setConfiguration(configuration: any) {
+    this.configuration = configuration;
+  }
+
 
 }

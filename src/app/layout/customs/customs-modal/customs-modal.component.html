@@ -1,0 +1,80 @@
+<div class="row" #customsModal>
+    <div class="Date col-xs-6 col-sm-3">
+        <fieldset class="form-group">
+            <label class="ng-tns-c9-19">Invoice Date</label>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" #invoiceDateCtrl (keyup.enter)="invoiceCtrl.focus()" (focus)="d.toggle()"
+                    ngbDatepicker #d="ngbDatepicker" [(ngModel)]="parentInfo['date']" (change)="invoiceCtrl.focus()">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-info" type="button" id="button-addon2" (click)="d.toggle()" (select)="invoiceCtrl.focus()"><i
+                            class="far fa-calendar-alt"></i></button>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    <div class="Carrier col-xs-6 col-sm-4">
+        <fieldset class="form-group">
+            <label class="ng-tns-c9-19">Carrier</label>
+            <input class="form-control" type="text" oninput="this.value = this.value.toUpperCase()" #carrierCtrl
+                (keyup.enter)="trackingCtrl.focus()" [(ngModel)]="parentInfo['carrier']" (focus)="$event.target.select()"
+                [attr.maxlength]="customsLength.carrier">
+        </fieldset>
+    </div>
+    <div class="Tracking col-sm-5">
+        <fieldset class="form-group">
+            <label class="ng-tns-c9-19">Tracking Number</label>
+            <input class="form-control" type="number" #trackingCtrl (keyup.enter)="plateCtrl.focus()" (focus)="$event.target.select()"
+                [(ngModel)]="parentInfo['tracking']" [attr.maxlength]="customsLength.tracking">
+        </fieldset>
+    </div>
+    <div class="invoice col-sm-6 col-md-3">
+        <fieldset class="form-group">
+            <label class="ng-tns-c9-19">Invoice</label>
+            <input class="form-control" type="number" #invoiceCtrl (keyup.enter)="carrierCtrl.focus()" (focus)="$event.target.select()"
+                [(ngModel)]="parentInfo['customsInvoice']" [attr.maxlength]="customsLength.invoice">
+        </fieldset>
+    </div>
+    <div class="Plate col-xs-6 col-md-3">
+        <fieldset class="form-group">
+            <label class="ng-tns-c9-19">Plate</label>
+            <input class="form-control" type="text" #plateCtrl oninput="this.value = this.value.toUpperCase()"
+                (keyup.enter)="sealCtrl.focus()" (focus)="$event.target.select()" [(ngModel)]="parentInfo['plate']"
+                [attr.maxlength]="customsLength.plate">
+        </fieldset>
+    </div>
+    <div class="Seal col-xs-6 col-md-3">
+        <fieldset class="form-group">
+            <label class="ng-tns-c9-19">Seal</label>
+            <input class="form-control" type="text" #sealCtrl oninput="this.value = this.value.toUpperCase()"
+                (keyup.enter)="transportCtrl.focus()" (focus)="$event.target.select()" [(ngModel)]="parentInfo['seal']"
+                [attr.maxlength]="customsLength.seal">
+        </fieldset>
+    </div>
+    <div class="TransportType col-sm-6 col-md-3">
+        <fieldset class="form-group">
+            <label class="ng-tns-c9-19">Transport</label>
+            <input class="form-control" type="text" #transportCtrl oninput="this.value = this.value.toUpperCase()"
+                (keyup.enter)="incotermCtrl.focus()" (focus)="$event.target.select()" [(ngModel)]="parentInfo['transportType']"
+                [attr.maxlength]="customsLength.transport">
+        </fieldset>
+    </div>
+    <div class="Incoterm col-sm-6 col-md-3">
+        <fieldset class="form-group">
+            <label class="ng-tns-c9-19">Incoterm</label>
+            <input class="form-control" type="text" #incotermCtrl oninput="this.value = this.value.toUpperCase()"
+                (keyup.enter)="pedimentCtrl.focus()" (focus)="$event.target.select()" [(ngModel)]="parentInfo['incoterm']"
+                [attr.maxlength]="customsLength.incoterm">
+        </fieldset>
+    </div>
+    <div class="Clear col-sm-6 col-md-9">
+        <fieldset class="form-group">
+            <label class="ng-tns-c9-19">Pediment</label>
+            <input class="form-control" type="number" #pedimentCtrl oninput="this.value = this.value.toUpperCase()"
+                (keyup.enter)="pedimentCtrl.focus()" (focus)="$event.target.select()" [(ngModel)]="parentInfo['pediment']"
+                [attr.maxlength]="customsLength.pediment">
+        </fieldset>
+    </div>
+</div>
+
+<!-- 
+  <pre>{{parentInfo | json}}</pre>   -->

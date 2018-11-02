@@ -3,18 +3,19 @@ import { Component, ComponentRef, ViewChild, ElementRef } from '@angular/core';
 
 
 @Component({
-  selector: 'app-sapmodal',
-  templateUrl: './sap-modal.component.html',
-  styleUrls: ['./sap-modal.component.sass']
+  selector: 'app-modal',
+  templateUrl: './modal.component.html',
+  styleUrls: ['./modal.component.scss']
 })
-export class SapModalComponent implements IModalDialog {
+export class ShipmentModalComponent implements IModalDialog {
 
   parentInfo: string;
   options: Partial<IModalDialogOptions<any>>;
 
-  @ViewChild('deliveryControl') deliveryControl: ElementRef;
-  @ViewChild('salesOrderControl') salesOrderControl: ElementRef;
-  
+  @ViewChild('weightControl') weightControl: ElementRef;
+  @ViewChild('dimensionControl') dimensionControl: ElementRef;
+  @ViewChild('myModal ') myModal: ElementRef;
+
   constructor() {
 
   }
@@ -24,13 +25,20 @@ export class SapModalComponent implements IModalDialog {
     console.log(this.options);
   }
 
+  dimensionFocus(): void {
+    this.dimensionControl.nativeElement.focus();
+  }
+
+  weightFocus(): void {
+    this.weightControl.nativeElement.focus();
+  }
 
   dialogInit(reference: ComponentRef<IModalDialog>, options: Partial<IModalDialogOptions<any>>) {
     this.options = options;
     this.parentInfo = options.data;
-    this.deliveryControl.nativeElement.focus();
+    this.weightControl.nativeElement.focus();
     setTimeout(() => {
-      this.deliveryControl.nativeElement.focus();
+      this.weightControl.nativeElement.focus();
     }, 500);
   }
 

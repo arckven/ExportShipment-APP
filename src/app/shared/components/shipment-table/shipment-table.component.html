@@ -1,0 +1,147 @@
+<div class="table-responsive-sm">
+    <div class="row">
+        <div class="col-12">
+                <p class="float-left"><span [ngClass]="{'labels2': header['status']=='CUSTOMS'}" class="badge badge-info badge-labeled labels mr-1">System : {{header['externalSystem']}}</span></p>
+            <p class="float-left"><span [ngClass]="{'labels2': header['status']=='CUSTOMS'}" class="badge badge-info badge-labeled labels mr-1">Status : {{header['status']}}</span></p>
+            <p class="float-left"><span class="badge badge-info badge-labeled labels mr-1">Id : {{header['shipmentHeaderId']}}</span></p>
+            <p class="float-left"><span class="badge badge-info badge-labeled labels mr-1">Date: {{header['shippingDate']
+                    | date: 'MM/dd/yyyy'}}</span></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 " [ngClass]="{'order-first': config['shipmentCollapse']}">
+            <p>Shipment Information</p>
+            <table class="table">
+                <!-- shipment -->
+                <thead class="bg-custom2 text-white text-center">
+                    <tr>
+                        <th>Pallet</th>
+                        <th>Carton</th>
+                        <th>XCVR</th>
+                        <th>Qty</th>
+                        <th>SBA</th>
+                        <th>RMA</th>
+                        <th>SO</th>
+                        <th>Delivery</th>
+                        <th>ASN</th>
+                        <th *ngIf="header['externalSystem']==='CAPTARIS'">Captaris</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="text-center bg-custom3" *ngFor="let detail of header['expShipmentDetails']">
+                        <td><button *ngIf="config['showPalletBtn']" style="width: 100%;" class="fontxs btn btn-outline-info"
+                                type="button" (click)="updateContainer(header, detail.pallet)">
+                                <i [ngClass]="{'fas fa-check': (detail.pallet.weight && detail.pallet.dimension),'far fa-edit': !(detail.pallet.weight && detail.pallet.dimension)}"></i>
+                                {{detail.pallet.reference }}</button>
+                            <span *ngIf="!config['showPalletBtn']"> {{detail.pallet.reference }}</span>
+                        </td>
+                        <td><button style="width: 100%;" *ngIf="detail.carton && config['showCartonBtn']" class="fontxs btn btn-outline-info"
+                                type="button" (click)="updateContainer(header, detail.carton)">
+                                <i [ngClass]="{'fas fa-check': (detail.carton.weight && detail.carton.dimension),'far fa-edit': !(detail.carton.weight && detail.carton.dimension)}"></i>
+                                {{(detail.carton !== null)? detail.carton['reference']:''}}</button>
+                            <span *ngIf="!config['showCartonBtn']">{{(detail.carton !== null)?
+                                detail.carton['reference']:''}}</span>
+                        </td>
+
+                        <td>{{ detail.materialId }}</td>
+                        <td>{{ detail.quantity }}</td>
+                        <td>{{ detail.sba }}</td>
+                        <td>{{ detail.rma }}</td>
+                        <td>{{ detail.salesOrder }}</td>
+                        <td>{{ detail.delivery }}</td>
+                        <td>{{ detail.asn }}</td>
+                        <td *ngIf="header['externalSystem']==='CAPTARIS'">{{ detail.externalId }}</td>
+                    </tr>
+                </tbody>
+                <!-- ./ shipment -->
+            </table>
+        </div>
+        <div class="col-12" [ngClass]="{'order-first': config['customsCollapse']}">
+            <p>Customs Information</p>
+            <table class="table">
+                <thead class="bg-custom2 text-white text-center">
+                    <tr>
+                        <th>Date</th>
+                        <th>Invoice</th>
+                        <th>Pediment</th>
+                        <th>Incoterm</th>
+                        <th>Carrier</th>
+                        <th>Tracking</th>
+                        <th>Plate</th>
+                        <th>Seal</th>
+                        <th>Transport Type</th>
+                        <th><button *ngIf="config['addCustomsInvoice']" class="btn btn-xs btn-primary float-right" type="button"
+                                (click)="addInvoice(header, null)">
+                                <i class="fas fa-file-invoice-dollar"></i> Add Invoice </button>
+                        </th>
+                    </tr>
+                </thead>
+                <!-- customs -->
+                <tbody>
+                    <tr class="bg-custom3" *ngFor="let customs of header['expShipmentCustoms']">
+                        <td>{{ customs['invoiceDate'] | date: 'MM/dd/yyyy'}}</td>
+                        <td>{{ customs['customsInvoice'] }}</td>
+                        <td>{{ customs['pediment'] }}</td>
+                        <td>{{ header['incoterm'] }}</td>
+                        <td>{{ header['carrier'] }}</td>
+                        <td>{{ header['tracking'] }}</td>
+                        <td>{{ header['plate'] }}</td>
+                        <td>{{ header['seal'] }}</td>
+                        <td>{{ header['transportType'] }}</td>
+                        <td>
+                            <button *ngIf="config['addCustomsInvoice']" class="btn btn-xs btn-primary float-right" type="button"
+                                (click)="editInvoice(header, customs)">
+                                <i class="fas fa-pencil-alt"></i> Edit</button>
+                            <!-- <button class="btn btn-xs btn-primary float-right mr-1" type="button"
+                              (click)="removeInvoice(header,customs)">
+                              <i class="far fa-trash-alt"></i> </button>&nbsp; -->
+                        </td>
+                    </tr>
+                </tbody>
+                <!-- ./ customs -->
+            </table>
+        </div>
+        <div class="col-12" [ngClass]="{'order-first': config['financeCollapse']}">
+            <p>Finance Information</p>
+            <table class="table">
+                <thead class="bg-custom2 text-white text-center">
+                    <tr>
+                        <th>Sales order</th>
+                        <th colspan=2>Delivery</th>
+                        <th colspan=1>Date</th>
+                        <th colspan=2>Invoice</th>
+                        <th colspan=3>UUID</th>
+                        <th><button *ngIf="config['addFinanceInvoice']" class="btn btn-xs btn-primary float-right" type="button"
+                                (click)="addInvoice(header, null)">
+                                <i class="fas fa-file-invoice-dollar"></i> Add Invoice </button>
+                        </th>
+                    </tr>
+                </thead>
+                <!-- finances -->
+                <tbody>
+                    <tr class="bg-custom3" *ngFor="let finance of header['expShipmentDetailsFinance']">
+                        <td>{{finance['salesOrder']}}</td>
+                        <td colspan=2>{{finance['delivery']}}</td>
+                        <td colspan=1>{{ finance.finInvDate | date: 'MM/dd/yyyy'}}</td>
+                        <td colspan=2>{{ finance.finInvoice }}</td>
+                        <td colspan=3>{{ finance.uuid }}</td>
+                        <td>
+                            <button *ngIf="config['addFinanceInvoice']" class="btn btn-xs btn-primary float-right mr-1"
+                                disabled="finance['status']" type="button" (click)="editInvoice(header, finance)">
+                                <i class="fas fa-pencil-alt"></i> Edit</button>
+                            <button *ngIf="config['addFinanceInvoice']" class="btn btn-xs btn-primary float-right mr-1"
+                                type="button" (click)="deleteInvoice(header, finance)">
+                                <i class="fas fa-trash-alt"></i> Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+                <!-- ./ Finance -->
+            </table>
+        </div>
+    </div>
+
+
+
+
+
+</div>

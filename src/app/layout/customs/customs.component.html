@@ -1,3 +1,117 @@
-<p>
-  customs works!
-</p>
+<div [@routerTransition]>
+    <app-page-header [heading]="'Customs'" [icon]="'fa-shipping-fast'" [help]="'/login'"></app-page-header>
+    <app-search [search]='childSearch'></app-search>
+    <hr>
+
+    <div class="col-md-12 table-responsive" *ngIf="childSearch['result']">
+        <div class="row" style="margin-bottom: 5px;">
+            <div class="col-sm-5">
+                <p class="text-primary"> Please add a customs invoice</p>
+            </div>
+            <div class="col-sm-7">
+
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card bg-light border-custom2" *ngFor="let header of childSearch['result']" style="margin-bottom: 10px;">
+                    <div class="card-header">
+                        <button class="btn btn-outline-info float-right" type="button" (click)="header.collapsed=toggle(header.collapsed)">
+                            <i class="fas fa-angle-double-down" [ngClass]="{'fa-angle-double-up': header.collapsed}"></i>
+                            Detail
+                        </button>
+                        <button class="btn btn-primary float-right mr-1" type="button" (click)="downloadFlatFile(header)"><i class="fas fa-file-csv"></i> Export Flat File</button>
+                        <button class="btn btn-success  float-right mr-1" type="button" (click)="confirmCloseShipment(header)"><i
+                                class="far fa-save"></i>
+                            <span *ngIf="header['status']=='SHIPMENT'"> Close </span> <span *ngIf="header['status']!='SHIPMENT'">
+                                Open </span>
+                            Customs </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class='col-lg-12'>
+                                <app-shipment-table [header] = "header" [config]="config" [customsAddInvoice]="addInvoice"></app-shipment-table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer" *ngIf="header['collapsed']" [@fadeInOut]>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6 list-group">
+                                    <button type="button" class="list-group-item list-group-item-action active">
+                                        Shipment
+                                    </button>
+                                    <button type="button" class="list-group-item list-group-item-action">
+                                        <dl class="dl-horizontal">
+                                            <dt>Plant</dt>
+                                            <dd>{{ header.plant }}</dd>
+                                        </dl>
+                                    </button>
+
+                                    <button type="button" class="list-group-item list-group-item-action">
+                                        <dl class="dl-horizontal">
+                                            <dt>Customer</dt>
+                                            <dd>{{ header.customer }}</dd>
+                                        </dl>
+                                    </button>
+
+                                    <button type="button" class="list-group-item list-group-item-action">
+                                        <dl class="dl-horizontal">
+                                            <dt>Ship To</dt>
+                                            <dd>{{ header.shipto }}</dd>
+                                        </dl>
+                                    </button>
+
+                                    <button type="button" class="list-group-item list-group-item-action">
+                                        <dl class="dl-horizontal">
+                                            <dt>Address</dt>
+                                            <dd>{{ header.shiptoAddress }}</dd>
+                                        </dl>
+                                    </button>
+
+                                    <button type="button" class="list-group-item list-group-item-action">
+                                        <dl class="dl-horizontal">
+                                            <dt>City</dt>
+                                            <dd>{{ header.shiptoCity }}</dd>
+                                        </dl>
+                                    </button>
+
+                                    <button type="button" class="list-group-item list-group-item-action">
+                                        <dl class="dl-horizontal">
+                                            <dt>ZIP Code</dt>
+                                            <dd>{{ header.shiptoZipcode }}</dd>
+                                        </dl>
+                                    </button>
+
+                                    <button type="button" class="list-group-item list-group-item-action">
+                                        <dl class="dl-horizontal">
+                                            <dt>Country</dt>
+                                            <dd>{{ header.shiptoCountry }}</dd>
+                                        </dl>
+                                    </button>
+
+                                </div>
+                            </div>
+                            <!-- <div class="row">
+                        <div class="col-md-6 alert alert-info mb-0">
+                            <strong>Pediment: </strong>{{ detail[''].plant }}<br>
+                            <strong>Invoice: </strong>{{ header.plant }}<br>
+                            <strong>Incoterm: </strong>{{ header.plant }}<br>
+                            <strong>Date: </strong>{{ header.plant }}<br>
+                        </div>
+                        <div class="col-md-6 alert alert-info mb-0">
+                            <strong>Invoice: </strong>{{ header.plant }}<br>
+                            <strong>UUID: </strong>{{ header.plant }}<br>
+                            <strong>Date: </strong>{{ header.plant }}<br>
+                        </div>
+                    </div> -->
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <pre>{{childSearch.result | json}}</pre> -->
+</div>

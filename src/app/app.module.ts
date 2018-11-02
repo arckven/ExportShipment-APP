@@ -8,12 +8,14 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { BlockUIModule } from 'ng-block-ui';
 import { BlockTemplateComponent } from './shared/components/block-template/block-template.component';
 
 import { ToasterModule } from 'angular2-toaster';
 import { AuthGuard } from './shared/guard/auth.guard';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ModalDialogModule } from 'ngx-modal-dialog';
 
@@ -27,6 +29,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faUser, faLock, faSignInAlt
 } from '@fortawesome/free-solid-svg-icons';
+
 
 
 // Add an icon to the library for convenient access in other components
@@ -76,7 +79,10 @@ export const createTranslateLoader = (http: HttpClient) => {
       template: BlockTemplateComponent
     }),
     FontAwesomeModule,
-    ModalDialogModule.forRoot()
+    ModalDialogModule.forRoot(),
+    NgbModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [AuthGuard, {
     provide: HTTP_INTERCEPTORS,
@@ -84,6 +90,10 @@ export const createTranslateLoader = (http: HttpClient) => {
     multi: true
   }],
   bootstrap: [AppComponent],
-  entryComponents: [BlockTemplateComponent]
+  entryComponents: [BlockTemplateComponent],
+  exports: [
+    FormsModule,
+    ReactiveFormsModule
+]
 })
 export class AppModule { }
