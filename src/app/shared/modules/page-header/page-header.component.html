@@ -6,9 +6,16 @@
         </h2>
         <ol class="breadcrumb" style="padding: 5px; margin-top: -5px;">
             <li class="breadcrumb-item">
-                <small><i class="fa fa-dashboard"></i> <a href="Javascript:void(0)" [routerLink]="['/dashboard']">Dashboard</a></small>
+                <small>
+                    <fa-icon class="icon" [icon]="['fas', 'tachometer-alt']"></fa-icon>
+                    <a href="Javascript:void(0)" [routerLink]="['/dashboard']"> Dashboard</a>
+                </small>
             </li>
-            <li class="breadcrumb-item active"><small><i class="fa {{icon}}"></i> {{heading}}</small></li>
+            <li class="breadcrumb-item active">
+                <small>
+                    <fa-icon class="icon" [icon]="['fas', icon]"></fa-icon>
+                    <i class="fa {{icon}}"></i> {{heading}}
+                </small></li>
         </ol>
     </div>
 </div>

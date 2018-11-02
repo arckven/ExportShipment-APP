@@ -19,11 +19,13 @@ import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressRouterModule } from '@ngx-progressbar/router';
 import { NgProgressHttpModule } from '@ngx-progressbar/http';
 import { TokenInterceptorService } from './shared/interceptors/token-interceptor.service';
+
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faUser, faLock, faSignInAlt
 } from '@fortawesome/free-solid-svg-icons';
+
 
 // Add an icon to the library for convenient access in other components
 library.add(faUser, faLock, faSignInAlt);

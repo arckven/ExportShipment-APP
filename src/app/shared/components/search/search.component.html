@@ -1,0 +1,45 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <p class="text-primary">Select a criteria to search shipments</p>
+        </div>
+    </div>
+    <form #formControl>
+        <div class="form-row" *ngIf="showSearch">
+            <div class="col-md-3">
+                <label>Plant</label>
+                <select #plantControl (change)="onChange('plant',$event.target.value)" class="form-control">
+                    <option [value]="'x'" selected disabled>Select a plant</option>
+                    <option [value]="plant" *ngFor="let plant of search['Plant']">{{plant}}</option>
+                </select>
+            </div>
+            <div class="col-md-9">
+                <label>Criteria</label>
+                <div class="form-group input-group">
+                    <div class="input-group-prepend"><select #criteriaControl (change)="onChange('criteria',$event.target.value)"
+                            class="form-control input-group-text">
+                            <option selected disabled>Select a criteria</option>
+                            <option [value]="criteria" *ngFor="let criteria of  search['Criteria']">{{criteria}}</option>
+                        </select></div><input #valueControl (change)="onChange('value',$event.target.value)" (focus)="resetValue()"
+                        (keyup.enter)="searchShipment()" class="form-control" type="text">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm">
+                <span *ngIf="search['plant']" class="badge badge-info badge-labeled">Plant :
+                    {{search['plant']}}</span>
+                &nbsp;
+                <span *ngIf="search['criteria'] && search['value']" class="badge badge-info badge-labeled">{{search['criteria']}}
+                    : {{search['value']}}</span>
+            </div>
+            <div class="col-sm justify-content-end">
+                <button class="float-right btn btn-info mr-1 mt-1" type="button" (click)="searchShipment()"><i class="fas fa-search"></i>
+                    Search</button>
+                <button class="float-right btn btn-default mr-1 mt-1" type="button" (click)="clearSearch()"><i class="fas fa-eraser"></i>
+                    Clear</button>
+            </div>
+        </div>
+    </form>
+</div>

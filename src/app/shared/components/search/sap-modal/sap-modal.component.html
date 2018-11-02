@@ -1,0 +1,16 @@
+<div class="row" #myModal>
+    <div class="col-sm-12">
+        <fieldset class="form-group">
+            <label class="ng-tns-c9-19">sales Order</label>
+            <input class="form-control" type="text" (keyup.enter)="salesOrderControl.focus()" #deliveryControl
+                [(ngModel)]="parentInfo['salesOrder']" placeholder="Enter a sales order">
+        </fieldset>
+        <fieldset class="form-group">
+            <label class="ng-tns-c9-19">Delivery</label>
+            <input class="form-control" type="text" #salesOrderControl [(ngModel)]="parentInfo['delivery']" placeholder="Enter a delivery">
+        </fieldset>
+    </div>
+</div>
+
+
+<!-- <pre>{{parentInfo | json}}</pre> -->
