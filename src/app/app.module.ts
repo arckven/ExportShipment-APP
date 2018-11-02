@@ -15,6 +15,8 @@ import { BlockTemplateComponent } from './shared/components/block-template/block
 import { ToasterModule } from 'angular2-toaster';
 import { AuthGuard } from './shared/guard/auth.guard';
 
+import { ModalDialogModule } from 'ngx-modal-dialog';
+
 import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressRouterModule } from '@ngx-progressbar/router';
 import { NgProgressHttpModule } from '@ngx-progressbar/http';
@@ -74,6 +76,7 @@ export const createTranslateLoader = (http: HttpClient) => {
       template: BlockTemplateComponent
     }),
     FontAwesomeModule,
+    ModalDialogModule.forRoot()
   ],
   providers: [AuthGuard, {
     provide: HTTP_INTERCEPTORS,
