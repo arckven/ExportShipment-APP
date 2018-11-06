@@ -1,10 +1,14 @@
 <div class="table-responsive-sm">
     <div class="row">
         <div class="col-12">
-                <p class="float-left"><span [ngClass]="{'labels2': header['status']=='CUSTOMS'}" class="badge badge-info badge-labeled labels mr-1">System : {{header['externalSystem']}}</span></p>
-            <p class="float-left"><span [ngClass]="{'labels2': header['status']=='CUSTOMS'}" class="badge badge-info badge-labeled labels mr-1">Status : {{header['status']}}</span></p>
-            <p class="float-left"><span class="badge badge-info badge-labeled labels mr-1">Id : {{header['shipmentHeaderId']}}</span></p>
-            <p class="float-left"><span class="badge badge-info badge-labeled labels mr-1">Date: {{header['shippingDate']
+            <p class="float-left"><span [ngClass]="{'labels2': header['status']=='CUSTOMS'}" class="badge badge-info badge-labeled labels mr-1">System
+                    : {{header['externalSystem']}}</span></p>
+            <p class="float-left"><span [ngClass]="{'labels2': header['status']=='CUSTOMS'}" class="badge badge-info badge-labeled labels mr-1">Status
+                    : {{header['status']}}</span></p>
+            <p class="float-left"><span class="badge badge-info badge-labeled labels mr-1">Id :
+                    {{header['shipmentHeaderId']}}</span></p>
+            <p class="float-left"><span class="badge badge-info badge-labeled labels mr-1">Shipment Date:
+                    {{header['shippingDate']
                     | date: 'MM/dd/yyyy'}}</span></p>
         </div>
     </div>
@@ -30,15 +34,17 @@
                 <tbody>
                     <tr class="text-center bg-custom3" *ngFor="let detail of header['expShipmentDetails']">
                         <td><button *ngIf="config['showPalletBtn']" style="width: 100%;" class="fontxs btn btn-outline-info"
-                                type="button" (click)="updateContainer(header, detail.pallet)">
-                                <i [ngClass]="{'fas fa-check': (detail.pallet.weight && detail.pallet.dimension),'far fa-edit': !(detail.pallet.weight && detail.pallet.dimension)}"></i>
-                                {{detail.pallet.reference }}</button>
+                                type="button" (click)="updateContainer(header, detail.pallet, containerModal)">
+                                <fa-icon class="icon" [icon]="['fas', ((detail.pallet.weight && detail.pallet.dimension)?'check':'edit')]"></fa-icon>
+                                {{detail.pallet.reference }}
+                            </button>
                             <span *ngIf="!config['showPalletBtn']"> {{detail.pallet.reference }}</span>
                         </td>
                         <td><button style="width: 100%;" *ngIf="detail.carton && config['showCartonBtn']" class="fontxs btn btn-outline-info"
-                                type="button" (click)="updateContainer(header, detail.carton)">
-                                <i [ngClass]="{'fas fa-check': (detail.carton.weight && detail.carton.dimension),'far fa-edit': !(detail.carton.weight && detail.carton.dimension)}"></i>
-                                {{(detail.carton !== null)? detail.carton['reference']:''}}</button>
+                                type="button" (click)="updateContainer(header, detail.carton, containerModal)">
+                                <fa-icon class="icon" [icon]="['fas', ((detail.carton.weight && detail.carton.dimension)?'check':'edit')]"></fa-icon>
+                                {{(detail.carton !== null)? detail.carton['reference']:''}}
+                            </button>
                             <span *ngIf="!config['showCartonBtn']">{{(detail.carton !== null)?
                                 detail.carton['reference']:''}}</span>
                         </td>
@@ -140,7 +146,38 @@
         </div>
     </div>
 
-
+    <ng-template #containerModal let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('CANCEL')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row" #myModal>
+                <div class="col-sm-12">
+                    <form action="javascript:void(0);">
+                        <fieldset class="form-group">
+                            <label class="ng-tns-c9-19">Weight</label>
+                            <input class="form-control" type="number" (keyup.enter)="dimensionFocus()" #weightControl
+                                name="weightControl" [(ngModel)]="container['weight']">
+                            <p class="help-block">Enter weight in Kg</p>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <label class="ng-tns-c9-19">Dimension</label>
+                            <input class="form-control" #dimensionControl (keyup.enter)="saveContainer()" [(ngModel)]="container['dimension']"
+                                name='dimensionControl'>
+                            <p class="help-block">Enter dimensions Lenght x Width x Height (10x10x10)</p>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="modal.dismiss('CANCEL')">Cancel</button>
+            <button type="button" class="btn btn-success" (click)="modal.close('SAVE')">Update</button>
+        </div>
+    </ng-template>
 
 
 

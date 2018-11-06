@@ -14,7 +14,7 @@ export class SapModalComponent implements IModalDialog {
 
   @ViewChild('deliveryControl') deliveryControl: ElementRef;
   @ViewChild('salesOrderControl') salesOrderControl: ElementRef;
-  
+
   constructor() {
 
   }
@@ -29,6 +29,7 @@ export class SapModalComponent implements IModalDialog {
     this.options = options;
     this.parentInfo = options.data;
     this.deliveryControl.nativeElement.focus();
+    console.log(this.deliveryControl);
     setTimeout(() => {
       this.deliveryControl.nativeElement.focus();
     }, 500);

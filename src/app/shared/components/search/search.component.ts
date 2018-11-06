@@ -43,9 +43,9 @@ export class SearchComponent implements OnInit {
   }
 
   searchShipment() {
-    // this.search['plant'] = 'WSCC';
-    // this.search['criteria'] = 'ASN';
-    // this.search['value'] = 'FOXELP163401A';
+    this.search['plant'] = 'WSCT';
+    this.search['criteria'] = 'SBA';
+    this.search['value'] = 'DCP-000020';
     if (this.showSearch === false) {
       this.showSearch = true;
       this.search['plant'] = null;
@@ -57,37 +57,45 @@ export class SearchComponent implements OnInit {
         this.shipmentService.getShipment(this.search).subscribe(
           data => {
             if (data['success']) {
-              let requiereSapInformation = false;
-              for (const shipment of data['result']) {
-                if (this.search['status'] !== shipment['status']) {
-                  this.toasterService.pop('warning', 'shipment [' + shipment['shipmentHeaderId'] + '] status [' + shipment['status'] +
-                    '] is not valid, must be [' + this.search['status'] + ']');
-                  delete data['result'][shipment];
-                } else if (shipment['externalSystem'] !== 'CAPTARIS' && shipment['status'] === 'NEW') {
-                  // validate if sap information is requiered
-                  for (const detail of shipment['expShipmentDetails']) {
-                    if (detail['salesOrder'] === null || detail['delivery'] === null) {
-                      requiereSapInformation = true;
-                      break;
+              console.log(data, AppSettings.REQUIERE_SAP_INFORMATION);
+              if (AppSettings.REQUIERE_SAP_INFORMATION) {
+                let requiereSapInformation = false;
+                for (const shipment of data['result']) {
+                  console.log(this.search['status'], shipment['status']);
+                  if (this.search['status'] !== shipment['status']) {
+                    this.toasterService.pop('warning', 'shipment [' + shipment['shipmentHeaderId'] + '] status [' + shipment['status'] +
+                      '] is not valid, must be [' + this.search['status'] + ']');
+                    delete data['result'][shipment];
+                  } else if (shipment['externalSystem'] !== 'CAPTARIS' && shipment['status'] === 'NEW') {
+                    console.log('check if sap needed');
+                    // validate if sap information is requiered
+                    for (const detail of shipment['expShipmentDetails']) {
+                      if (detail['salesOrder'] === null || detail['delivery'] === null) {
+                        requiereSapInformation = true;
+                        console.log('Yes sap needed');
+                        break;
+                      }
                     }
                   }
+                  shipment['expShipmentDetails'].sort((obj1, obj2) => {
+                    if (obj1['pallet']['reference'] === obj2['pallet']['reference']) {
+                      return 1;
+                    } else {
+                      return -1;
+                    }
+                  });
                 }
-                shipment['expShipmentDetails'].sort((obj1, obj2) => {
-                  if (obj1['pallet']['reference'] === obj2['pallet']['reference']) {
-                    return 1;
-                  } else {
-                    return -1;
-                  }
-                });
-              }
 
-              // fill sales order and delivery to call sap transaction
-              if (requiereSapInformation) {
-                this.openSapModal(data['result']);
+                // fill sales order and delivery to call sap transaction
+                if (requiereSapInformation) {
+                  console.log('open modal');
+                  this.openSapModal(data['result']);
+                }
               }
               this.search['result'] = data['result'];
               this.RetrieveFinances(this.search['result']);
               this.showSearch = false;
+              console.log(this.search['result'] );
             } else {
               const status = String(data['status']).toLowerCase();
               this.toasterService.pop(status, 'No shipment information');
@@ -173,7 +181,7 @@ export class SearchComponent implements OnInit {
   openSapModal(shipmentLst) {
     this.toasterService.clear();
     shipmentLst.forEach(shipment => {
-      if (shipment['status'] !== 'NEW') {
+      if (shipment['status'] === 'NEW') {
         const findData: Object = { plant: shipment['plant'], delivery: undefined, salesOrder: undefined };
         this.modalService.openDialog(this.viewRef, {
           title: 'Please complete the following information ',

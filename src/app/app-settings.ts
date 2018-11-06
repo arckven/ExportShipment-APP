@@ -18,5 +18,7 @@ export class AppSettings {
     public static API_TIMEOUT = 60000;
     public static API_TIMEOUT_INTENTS = 2;
 
+    public static REQUIERE_SAP_INFORMATION = false;
+
 
 }

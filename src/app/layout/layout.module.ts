@@ -21,8 +21,8 @@ import { FinanceComponent } from './finance/finance.component';
 
 import { PageHeaderModule } from '../shared/modules/page-header/page-header.module';
 import { CustomsModalComponent } from './customs/customs-modal/customs-modal.component';
-import { FormsModule } from '@angular/forms';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Add an icon to the library for convenient access in other components
 library.add(faTachometerAlt, faUsersCog, faArrowRight, faAngleDoubleLeft, faAngleDoubleRight,
@@ -37,6 +37,7 @@ library.add(faTachometerAlt, faUsersCog, faArrowRight, faAngleDoubleLeft, faAngl
     PageHeaderModule,
     FontAwesomeModule,
     FormsModule,
+    ReactiveFormsModule,
     NgbModule
   ],
   declarations: [LayoutRoutingComponents, SidebarComponent, HeaderComponent, CustomsComponent, FinanceComponent, CustomsModalComponent]

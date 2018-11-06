@@ -15,6 +15,7 @@ export class SapService {
   constructor(private http: HttpClient) { }
 
   retriveZMX_SAP_ZOE(plant, salesOrder, delivery): Observable<any> {
+    this.blockUI.start(AppSettings.API_LOADING_MESSAGE);
     const params = { 'imports': {} };
 
     params.imports['P_PLANT'] = plant;

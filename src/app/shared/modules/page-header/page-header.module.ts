@@ -8,25 +8,30 @@ import { ShipmentTableComponent } from '../../components/shipment-table/shipment
 import { SapModalComponent } from '../../components/search/sap-modal/sap-modal.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { ModalDialogModule } from 'ngx-modal-dialog';
+import { BlockUIModule } from 'ng-block-ui';
+
+
 import {
   faTachometerAlt, faTruckLoading, faShippingFast, faFileInvoiceDollar,
   faUsersCog, faArrowRight, faAngleDoubleLeft, faAngleDoubleRight,
-  faBars, faTruckMoving, faUser
+  faBars, faTruckMoving, faUser, faCheck, faEdit
 } from '@fortawesome/free-solid-svg-icons';
 
 // Add an icon to the library for convenient access in other components
 library.add(faTachometerAlt, faUsersCog, faArrowRight, faAngleDoubleLeft, faAngleDoubleRight,
-  faTruckLoading, faShippingFast, faFileInvoiceDollar, faBars, faTruckMoving, faUser);
+  faTruckLoading, faShippingFast, faFileInvoiceDollar, faBars, faTruckMoving, faUser, faCheck,
+  faEdit);
 
 
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule, FormsModule, ReactiveFormsModule, FontAwesomeModule
+    RouterModule, FormsModule, ReactiveFormsModule, FontAwesomeModule, ModalDialogModule, BlockUIModule.forRoot()
   ],
-  declarations: [PageHeaderComponent, SearchComponent, SapModalComponent, ShipmentTableComponent],
-  exports: [PageHeaderComponent, SearchComponent, SapModalComponent, ShipmentTableComponent],
-  entryComponents: [SapModalComponent]
+  declarations: [PageHeaderComponent, SearchComponent, ShipmentTableComponent, SapModalComponent],
+    exports: [PageHeaderComponent, SearchComponent, ShipmentTableComponent, SapModalComponent],
+    entryComponents: [SapModalComponent]
 })
 export class PageHeaderModule { }

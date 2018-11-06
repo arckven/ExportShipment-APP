@@ -12,6 +12,7 @@ const helper = new JwtHelperService();
 export class AuthService {
 
   private userInformation;
+  private applications:Object=[];
 
   constructor(public router: Router, public toasterService: ToasterService) {
     this.userInformation = {};

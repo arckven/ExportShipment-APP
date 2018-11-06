@@ -16,6 +16,7 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   authenticate(username, password): Observable<any> {
+    this.blockUI.start(AppSettings.API_LOADING_MESSAGE);
     return this.http.post<any>(AppSettings.API_AUTHENTICATE + '/security/authenticate', { Username: username, Password: password }).pipe(
       tap(
         (response) => {
@@ -30,6 +31,7 @@ export class UserService {
   }
 
   getAllUsers(): Observable<any> {
+    this.blockUI.start(AppSettings.API_LOADING_MESSAGE);
     let url = AppSettings.API_ENDPOINT;
     url += 'utils/allUsers';
 
@@ -47,6 +49,7 @@ export class UserService {
   }
 
   getAllRoles(username, password): Observable<any> {
+    this.blockUI.start(AppSettings.API_LOADING_MESSAGE);
     let url = AppSettings.API_ENDPOINT;
     url += 'utils/allRoles';
     return this.http.get<any>(url, {}).pipe(
@@ -64,6 +67,7 @@ export class UserService {
 
 
   getAllAreas(): Observable<any> {
+    this.blockUI.start(AppSettings.API_LOADING_MESSAGE);
     let url = AppSettings.API_ENDPOINT;
     url += 'utils/allAreas';
     return this.http.get<any>(url, {}).pipe(
