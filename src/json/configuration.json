@@ -1,0 +1,27 @@
+{
+    "status": "SUCCESS",
+    "detail": "PARAMETERS: 1",
+    "result": {
+        "SEARCH_CONTROL": {
+            "Plant": [
+                "WSCJ",
+                "WSCC",
+                "WSCT",
+                "WSCR",
+                "WSCQ"
+            ],
+            "Criteria": [
+                "Sales order",
+                "Captaris",
+                "SBA",
+                "Delivery",
+                "ASN"
+            ]
+        },
+        "AppName": "Hola Robert, soy desarrollo"
+    },
+    "error": false,
+    "success": true,
+    "warning": false,
+    "info": false
+}

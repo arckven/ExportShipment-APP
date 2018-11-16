@@ -20,7 +20,7 @@ export class ShipmentService {
     url += 'shipment/' + search['plant'].toUpperCase() + '/';
     url += search['criteria'].toLowerCase().replace(' ', '') + '/';
     url += search['value'];
-    return this.http.get<any>(url, {}).pipe(
+    return this.http.get<any>(url, { }).pipe(
       tap(
         (response) => {
           this.blockUI.stop();
