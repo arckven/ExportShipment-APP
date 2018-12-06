@@ -1,9 +1,9 @@
-<div class="table-responsive-sm">
+<div class="table-responsive-sm" id="customMain">
     <div class="row">
-        <div class="col-12">
-            <p class="float-left"><span [ngClass]="{'labels2': header['status']=='CUSTOMS'}" class="badge badge-info badge-labeled labels mr-1">System
+        <div class="col-8">
+            <p class="float-left"><span class="badge badge-info badge-labeled labels mr-1">System
                     : {{header['externalSystem']}}</span></p>
-            <p class="float-left"><span [ngClass]="{'labels2': header['status']=='CUSTOMS'}" class="badge badge-info badge-labeled labels mr-1">Status
+            <p class="float-left"><span class="badge badge-info badge-labeled labels mr-1">Status
                     : {{header['status']}}</span></p>
             <p class="float-left"><span class="badge badge-info badge-labeled labels mr-1">Id :
                     {{header['shipmentHeaderId']}}</span></p>
@@ -11,10 +11,19 @@
                     {{header['shippingDate']
                     | date: 'MM/dd/yyyy'}}</span></p>
         </div>
+        <div class="col-4">
+            <button class="btn btn-primary float-right mr-1" type="button" (click)="closeShipment(header)">
+                <i class="fas fa-angle-double-down"></i>
+                Save Shipment
+            </button>
+            <button *ngIf="config['showFlatFileButton']" class="btn btn-secondary float-right mr-1" type="button"
+                (click)="downloadShipmentFlatFile(header)"><i class="fas fa-file-csv"></i>
+                Export Flat File</button>
+        </div>
     </div>
     <div class="row">
         <div class="col-12 " [ngClass]="{'order-first': config['shipmentCollapse']}">
-            <p>Shipment Information</p>
+            <p class="h6">Shipment Information</p>
             <table class="table">
                 <!-- shipment -->
                 <thead class="bg-custom2 text-white text-center">
@@ -63,7 +72,7 @@
             </table>
         </div>
         <div class="col-12" [ngClass]="{'order-first': config['customsCollapse']}">
-            <p>Customs Information</p>
+            <p class="h6">Customs Information</p>
             <table class="table">
                 <thead class="bg-custom2 text-white text-center">
                     <tr>
@@ -77,7 +86,7 @@
                         <th>Seal</th>
                         <th>Transport Type</th>
                         <th><button *ngIf="config['addCustomsInvoice']" class="btn btn-xs btn-primary float-right" type="button"
-                                (click)="addInvoice(header, null)">
+                                (click)="addInvoice(header, null, CustomsModal)">
                                 <i class="fas fa-file-invoice-dollar"></i> Add Invoice </button>
                         </th>
                     </tr>
@@ -96,11 +105,8 @@
                         <td>{{ header['transportType'] }}</td>
                         <td>
                             <button *ngIf="config['addCustomsInvoice']" class="btn btn-xs btn-primary float-right" type="button"
-                                (click)="editInvoice(header, customs)">
+                                (click)="addInvoice(header, customs, CustomsModal)">
                                 <i class="fas fa-pencil-alt"></i> Edit</button>
-                            <!-- <button class="btn btn-xs btn-primary float-right mr-1" type="button"
-                              (click)="removeInvoice(header,customs)">
-                              <i class="far fa-trash-alt"></i> </button>&nbsp; -->
                         </td>
                     </tr>
                 </tbody>
@@ -108,7 +114,7 @@
             </table>
         </div>
         <div class="col-12" [ngClass]="{'order-first': config['financeCollapse']}">
-            <p>Finance Information</p>
+            <p class="h6">Finance Information</p>
             <table class="table">
                 <thead class="bg-custom2 text-white text-center">
                     <tr>
@@ -118,7 +124,7 @@
                         <th colspan=2>Invoice</th>
                         <th colspan=3>UUID</th>
                         <th><button *ngIf="config['addFinanceInvoice']" class="btn btn-xs btn-primary float-right" type="button"
-                                (click)="addInvoice(header, null)">
+                                (click)="addInvoice(header, null, financeModal)">
                                 <i class="fas fa-file-invoice-dollar"></i> Add Invoice </button>
                         </th>
                     </tr>
@@ -133,11 +139,8 @@
                         <td colspan=3>{{ finance.uuid }}</td>
                         <td>
                             <button *ngIf="config['addFinanceInvoice']" class="btn btn-xs btn-primary float-right mr-1"
-                                disabled="finance['status']" type="button" (click)="editInvoice(header, finance)">
+                                type="button" (click)="addInvoice(header, finance, financeModal)">
                                 <i class="fas fa-pencil-alt"></i> Edit</button>
-                            <button *ngIf="config['addFinanceInvoice']" class="btn btn-xs btn-primary float-right mr-1"
-                                type="button" (click)="deleteInvoice(header, finance)">
-                                <i class="fas fa-trash-alt"></i> Delete</button>
                         </td>
                     </tr>
                 </tbody>
@@ -159,17 +162,116 @@
                     <form action="javascript:void(0);">
                         <fieldset class="form-group">
                             <label class="ng-tns-c9-19">Weight</label>
-                            <input class="form-control" type="number" (keyup.enter)="dimensionFocus()" #weightControl
-                                name="weightControl" [(ngModel)]="container['weight']">
+                            <input class="form-control" type="number" (keyup.enter)="dimensionControl.focus()" readonly="ShipmentEditable(header)"
+                                #weightControl name="weightControl" id="weightControl" [(ngModel)]="container['weight']"
+                                (focus)="$event.target.select()">
                             <p class="help-block">Enter weight in Kg</p>
                         </fieldset>
                         <fieldset class="form-group">
                             <label class="ng-tns-c9-19">Dimension</label>
-                            <input class="form-control" #dimensionControl (keyup.enter)="saveContainer()" [(ngModel)]="container['dimension']"
-                                name='dimensionControl'>
+                            <input class="form-control" #dimensionControl (keyup.enter)="saveContainer.focus()"
+                                [(ngModel)]="container['dimension']" (focus)="$event.target.select()" name="dimensionControl"
+                                id="dimensionControl">
                             <p class="help-block">Enter dimensions Lenght x Width x Height (10x10x10)</p>
                         </fieldset>
                     </form>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button #cancelContainer type="button" class="btn btn-secondary" (click)="modal.dismiss('CANCEL')">Cancel</button>
+            <button #saveContainer type="button" class="btn btn-success" (click)="modal.close('SAVE')">Update</button>
+        </div>
+    </ng-template>
+
+
+    <ng-template #CustomsModal let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Customs Invoice</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('CANCEL')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row" #customsModal>
+                <div class="Date col-xs-6 col-sm-3">
+                    <fieldset class="form-group">
+                        <label class="ng-tns-c9-19">Invoice Date</label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" #invoiceDateCtrl id="invoiceDateCtrl" (keyup.enter)="invoiceCtrl.focus()"
+                                (focus)="d.toggle()" ngbDatepicker #d="ngbDatepicker" [(ngModel)]="customInvoice['date']"
+                                (change)="invoiceCtrl.focus()">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-info" type="button" id="button-addon2" (click)="d.toggle()"
+                                    (select)="invoiceCtrl.focus()">
+                                    <fa-icon [icon]="['fas', 'calendar-alt']"></fa-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="Carrier col-xs-6 col-sm-4">
+                    <fieldset class="form-group">
+                        <label class="ng-tns-c9-19">Carrier</label>
+                        <input class="form-control" type="text" oninput="this.value = this.value.toUpperCase()"
+                            #carrierCtrl id="carrierCtrl" (keyup.enter)="trackingCtrl.focus()" [(ngModel)]="customInvoice['carrier']"
+                            (focus)="$event.target.select()" [attr.maxlength]="customsLength.carrier">
+                    </fieldset>
+                </div>
+                <div class="Tracking col-sm-5">
+                    <fieldset class="form-group">
+                        <label class="ng-tns-c9-19">Tracking Number</label>
+                        <input class="form-control" type="number" #trackingCtrl (keyup.enter)="plateCtrl.focus()"
+                            (focus)="$event.target.select()" [(ngModel)]="customInvoice['tracking']" [attr.maxlength]="customsLength.tracking">
+                    </fieldset>
+                </div>
+                <div class="invoice col-sm-6 col-md-3">
+                    <fieldset class="form-group">
+                        <label class="ng-tns-c9-19">Invoice</label>
+                        <input class="form-control" type="number" #invoiceCtrl (keyup.enter)="carrierCtrl.focus()"
+                            (focus)="$event.target.select()" [(ngModel)]="customInvoice['customsInvoice']"
+                            [attr.maxlength]="customsLength.invoice">
+                    </fieldset>
+                </div>
+                <div class="Plate col-xs-6 col-md-3">
+                    <fieldset class="form-group">
+                        <label class="ng-tns-c9-19">Plate</label>
+                        <input class="form-control" type="text" #plateCtrl oninput="this.value = this.value.toUpperCase()"
+                            (keyup.enter)="sealCtrl.focus()" (focus)="$event.target.select()" [(ngModel)]="customInvoice['plate']"
+                            [attr.maxlength]="customsLength.plate">
+                    </fieldset>
+                </div>
+                <div class="Seal col-xs-6 col-md-3">
+                    <fieldset class="form-group">
+                        <label class="ng-tns-c9-19">Seal</label>
+                        <input class="form-control" type="text" #sealCtrl oninput="this.value = this.value.toUpperCase()"
+                            (keyup.enter)="transportCtrl.focus()" (focus)="$event.target.select()" [(ngModel)]="customInvoice['seal']"
+                            [attr.maxlength]="customsLength.seal">
+                    </fieldset>
+                </div>
+                <div class="TransportType col-sm-6 col-md-3">
+                    <fieldset class="form-group">
+                        <label class="ng-tns-c9-19">Transport</label>
+                        <input class="form-control" type="text" #transportCtrl oninput="this.value = this.value.toUpperCase()"
+                            (keyup.enter)="incotermCtrl.focus()" (focus)="$event.target.select()" [(ngModel)]="customInvoice['transportType']"
+                            [attr.maxlength]="customsLength.transport">
+                    </fieldset>
+                </div>
+                <div class="Incoterm col-sm-6 col-md-3">
+                    <fieldset class="form-group">
+                        <label class="ng-tns-c9-19">Incoterm</label>
+                        <input class="form-control" type="text" #incotermCtrl oninput="this.value = this.value.toUpperCase()"
+                            (keyup.enter)="pedimentCtrl.focus()" (focus)="$event.target.select()" [(ngModel)]="customInvoice['incoterm']"
+                            [attr.maxlength]="customsLength.incoterm">
+                    </fieldset>
+                </div>
+                <div class="Clear col-sm-6 col-md-9">
+                    <fieldset class="form-group">
+                        <label class="ng-tns-c9-19">Pediment</label>
+                        <input class="form-control" type="number" #pedimentCtrl oninput="this.value = this.value.toUpperCase()"
+                            (keyup.enter)="pedimentCtrl.focus()" (focus)="$event.target.select()" [(ngModel)]="customInvoice['pediment']"
+                            [attr.maxlength]="customsLength.pediment">
+                    </fieldset>
                 </div>
             </div>
         </div>
@@ -179,6 +281,72 @@
         </div>
     </ng-template>
 
+    <ng-template #financeModal let-modal>
+
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Finance Invoice</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('CANCEL')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-4">
+                    <fieldset class="form-group">
+                        <label class="ng-tns-c9-19">Sales Order</label>
+                        <select #salesOrderCtrl [(ngModel)]="financeInvoice['salesOrder']" class="form-control input-group-text">
+                            <option selected disabled>Select a sales order</option>
+                            <option [value]="salesOrder" *ngFor="let salesOrder of  financeInvoice['salesOrderLst']">{{salesOrder}}</option>
+                        </select>
+                    </fieldset>
+                </div>
+                <div class="col-sm-4">
+                    <fieldset class="form-group">
+                        <label class="ng-tns-c9-19">Invoice Date</label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" #invoiceDateCtrl (keyup.enter)="invoiceCtrl.focus()"
+                                (focus)="d.toggle()" ngbDatepicker #d="ngbDatepicker" [(ngModel)]="financeInvoice['date']"
+                                (change)="invoiceCtrl.focus()">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-info" type="button" id="button-addon2" (click)="d.toggle()"
+                                    (select)="invoiceCtrl.focus()">
+                                    <fa-icon [icon]="['fas', 'calendar-alt']"></fa-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="col-sm-4">
+                    <fieldset class="form-group">
+                        <label class="ng-tns-c9-19">Invoice</label>
+                        <input class="form-control" type="number" #invoiceCtrl id="invoiceCtrl" (keyup.enter)="uuidCtrl.focus()"
+                            (focus)="$event.target.select()" [(ngModel)]="financeInvoice['finInvoice']"
+                            [attr.maxlength]="financeLength.finInvoice">
+                    </fieldset>
+                </div>
+                <div class="col-sm-4">
+                    <fieldset class="form-group">
+                        <label class="ng-tns-c9-19">Delivery</label>
+                        <select #deliveryCtrl [(ngModel)]="financeInvoice['delivery']" class="form-control input-group-text">
+                            <option selected disabled>Select a delivery</option>
+                            <option [value]="delivery" *ngFor="let delivery of  financeInvoice['deliveryLst']">{{delivery}}</option>
+                        </select>
+                    </fieldset>
+                </div>
+                <div class="col-sm-8">
+                    <fieldset class="form-group">
+                        <label class="ng-tns-c9-19">UUID</label>
+                        <input class="form-control" type="text" #uuidCtrl (focus)="$event.target.select()" [(ngModel)]="financeInvoice['uuid']"
+                            [attr.maxlength]="financeLength.uuid">
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="modal.dismiss('CANCEL')">Cancel</button>
+            <button type="button" class="btn btn-success" (click)="modal.close('SAVE')">Save</button>
+        </div>
+    </ng-template>
 
 
 </div>

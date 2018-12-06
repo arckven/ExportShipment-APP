@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="row">
+    <div class="row" *ngIf="showSearch">
         <div class="col">
             <p class="text-primary">Select a criteria to search shipments</p>
         </div>
@@ -35,7 +35,7 @@
                     : {{search['value']}}</span>
             </div>
             <div class="col-sm justify-content-end">
-                <button class="float-right btn btn-info mr-1 mt-1" type="button" (click)="searchShipment()"><i class="fas fa-search"></i>
+                <button *ngIf="showSearch" class="float-right btn btn-info mr-1 mt-1" type="button" (click)="searchShipment()"><i class="fas fa-search"></i>
                     Search</button>
                 <button class="float-right btn btn-default mr-1 mt-1" type="button" (click)="clearSearch()"><i class="fas fa-eraser"></i>
                     Clear</button>

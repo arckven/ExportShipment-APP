@@ -37,7 +37,7 @@ export class ShipmentService {
   updateShipment(shipmentLst): Observable<any> {
     this.blockUI.start(AppSettings.API_LOADING_MESSAGE);
     const url = AppSettings.API_ENDPOINT + 'shipment/update';
-    return this.http.post<any>(url, shipmentLst).pipe(
+    return this.http.put<any>(url, shipmentLst).pipe(
       tap(
         (response) => {
           this.blockUI.stop();

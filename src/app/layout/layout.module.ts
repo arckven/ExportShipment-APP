@@ -13,20 +13,20 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faTachometerAlt, faTruckLoading, faShippingFast, faFileInvoiceDollar,
   faUsersCog, faArrowRight, faAngleDoubleLeft, faAngleDoubleRight,
-  faBars, faTruckMoving, faUser
+  faBars, faTruckMoving, faUser, faCalendarAlt
 } from '@fortawesome/free-solid-svg-icons';
 
 import { CustomsComponent } from './customs/customs.component';
 import { FinanceComponent } from './finance/finance.component';
 
 import { PageHeaderModule } from '../shared/modules/page-header/page-header.module';
-import { CustomsModalComponent } from './customs/customs-modal/customs-modal.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Add an icon to the library for convenient access in other components
 library.add(faTachometerAlt, faUsersCog, faArrowRight, faAngleDoubleLeft, faAngleDoubleRight,
-  faTruckLoading, faShippingFast, faFileInvoiceDollar, faBars, faTruckMoving, faUser);
+  faTruckLoading, faShippingFast, faFileInvoiceDollar, faBars, faTruckMoving, faUser,
+  faCalendarAlt);
 
 @NgModule({
   imports: [
@@ -40,6 +40,6 @@ library.add(faTachometerAlt, faUsersCog, faArrowRight, faAngleDoubleLeft, faAngl
     ReactiveFormsModule,
     NgbModule
   ],
-  declarations: [LayoutRoutingComponents, SidebarComponent, HeaderComponent, CustomsComponent, FinanceComponent, CustomsModalComponent]
+  declarations: [LayoutRoutingComponents, SidebarComponent, HeaderComponent, CustomsComponent, FinanceComponent]
 })
 export class LayoutModule { }

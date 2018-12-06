@@ -10,7 +10,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { ModalDialogModule } from 'ngx-modal-dialog';
 import { BlockUIModule } from 'ng-block-ui';
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import {
   faTachometerAlt, faTruckLoading, faShippingFast, faFileInvoiceDollar,
@@ -27,11 +27,11 @@ library.add(faTachometerAlt, faUsersCog, faArrowRight, faAngleDoubleLeft, faAngl
 
 @NgModule({
   imports: [
-    CommonModule,
+    CommonModule, NgbModule.forRoot(),
     RouterModule, FormsModule, ReactiveFormsModule, FontAwesomeModule, ModalDialogModule, BlockUIModule.forRoot()
   ],
   declarations: [PageHeaderComponent, SearchComponent, ShipmentTableComponent, SapModalComponent],
-    exports: [PageHeaderComponent, SearchComponent, ShipmentTableComponent, SapModalComponent],
-    entryComponents: [SapModalComponent]
+  exports: [PageHeaderComponent, SearchComponent, ShipmentTableComponent, SapModalComponent],
+  entryComponents: [SapModalComponent]
 })
 export class PageHeaderModule { }
